@@ -2,6 +2,7 @@ package com.golfstore.controllers;
 
 import com.golfstore.config.DBConnection;
 import com.golfstore.model.UserModel;
+import com.golfstore.util.PasswordUtil;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -18,7 +19,7 @@ import java.sql.SQLException;
  * Controller for handling Staff Registration.
  * Enforces MVC by processing business logic here, keeping JSPs clean.
  */
-@WebServlet("/RegisterServlet")
+@WebServlet("/register")
 public class RegisterServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -34,13 +35,14 @@ public class RegisterServlet extends HttpServlet {
         // 1. Extract data from the HTML form using the 'name' attributes
         String username = request.getParameter("username");
         String email = request.getParameter("email");
-        String password = request.getParameter("password"); 
+        String password = request.getParameter("password");
+        String hashedPassword = PasswordUtil.hashPassword(password);
 
         // 2. Encapsulate the data inside our JavaBean Model (Week 5 concept)
         UserModel newUser = new UserModel();
         newUser.setUsername(username);
         newUser.setEmail(email);
-        newUser.setPassword(password);
+        newUser.setPassword(hashedPassword);
 
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -57,7 +59,7 @@ public class RegisterServlet extends HttpServlet {
             // Bind the JavaBean data to the query parameters
             stmt.setString(1, newUser.getUsername());
             stmt.setString(2, newUser.getEmail());
-            stmt.setString(3, newUser.getPassword()); // (Ideally, this is where Week 4 AES Encryption is applied before saving)
+            stmt.setString(3, newUser.getPassword()); 
 
             // 5. Execute the Query
             int rowsInserted = stmt.executeUpdate();
@@ -65,7 +67,7 @@ public class RegisterServlet extends HttpServlet {
             // 6. Process the Result and Route the User
             if (rowsInserted > 0) {
                 // Success! Use sendRedirect to change the URL and push them to the Login controller
-                response.sendRedirect(request.getContextPath() + "/LoginServlet");
+                response.sendRedirect(request.getContextPath() + "/login");
             } else {
                 // Failure! Forward them back to the registration page using the Dispatcher
                 request.setAttribute("errorMessage", "Registration failed. Try again.");

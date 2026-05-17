@@ -1,50 +1,60 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" 
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Register - TeeTime Pro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | TeeTime Pro</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 </head>
 <body>
-    <div class="auth-card">
-        <h2>Staff Registration</h2>
-        
-        <%-- 
-           JSP SCRIPTLET BLOCK:
-           Checks if the Controller (RegisterServlet) sent an "errorMessage" attribute.
-           If it did (e.g., username already exists in MySQL), it renders this error div. 
-        --%>
-        <% if (request.getAttribute("errorMessage") != null) { %>
-            <div class="error-message">
-                <%= request.getAttribute("errorMessage") %>
-            </div>
-        <% } %>
+    <div class="auth-wrapper">
+        <div class="auth-card">
 
-        <form action="${pageContext.request.contextPath}/RegisterServlet" method="POST">
-            
-            <div class="input-group">
-                <label>Username</label>
-                <input type="text" name="username" required>
+            <div class="auth-logo">
+                <h1>TeeTime Pro</h1>
+                <p>Golf Equipment Management</p>
             </div>
-            
-            <div class="input-group">
-                <label>Email</label>
-                <input type="email" name="email" required>
+
+            <h2>Staff Registration</h2>
+
+            <c:if test="${not empty errorMessage}">
+                <div class="alert alert-error">${errorMessage}</div>
+            </c:if>
+
+            <form action="${pageContext.request.contextPath}/register" method="POST">
+
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username"
+                           placeholder="Choose a username" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email"
+                           placeholder="Enter your email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password"
+                           placeholder="Choose a password" required>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">Create Account</button>
+                </div>
+
+            </form>
+
+            <div class="auth-footer">
+                Already have an account?
+                <a href="${pageContext.request.contextPath}/login">Login here</a>
             </div>
-            
-            <div class="input-group">
-                <label>Password</label>
-                <input type="password" name="password" required>
-            </div>
-            
-            <button type="submit">Register</button>
-            
-            <p class="auth-footer-link">
-            	Already have an account? <a href="${pageContext.request.contextPath}/LoginServlet">Login here</a>
-        	</p>
-        </form>
+
+        </div>
     </div>
 </body>
 </html>
