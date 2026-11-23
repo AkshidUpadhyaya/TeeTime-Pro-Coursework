@@ -40,7 +40,7 @@ src/main/webapp/
 5. Open `http://localhost:8080/<project-name>/login` in your browser.
 
 ## Report
-The full project report (design, database schema, testing and screenshots) is in [`TeeTime_Pro_Report.pdf`](TeeTime_Pro_Report.pdf).
+The full project report (design, database schema, testing and screenshots) is in [`Project Report`](<24046560 Akshid Upadhyaya Panthi.pdf>).
 
 ## Author
 **Akshid Upadhyaya Panthi** · [GitHub](https://github.com/AkshidUpadhyaya)
